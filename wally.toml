@@ -1,0 +1,16 @@
+[package]
+name = "aviawards2022/aviwards-Voting"
+description = "The code for The Voting game of AviAward"
+version = "0.0.1"
+authors = ["CHS <oth@havingastroke.party>"]
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+
+[dependencies]
+Knit = "sleitnick/knit@^1"
+signal = "sleitnick/signal@1.2.1"
+
+[server-dependencies]
+ProfileService = "alreadypro/profileservice@1.0.4"
+
+[dev-dependencies]

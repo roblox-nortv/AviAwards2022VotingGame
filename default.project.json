@@ -1,0 +1,40 @@
+{
+    "name": "AviawardVoting",
+    "tree": {
+        "$className": "DataModel",
+        "ReplicatedStorage": {
+            "$className": "ReplicatedStorage",
+            "$path": "src/ReplicatedStorage",
+            "Packages": {
+                "$className": "Folder",
+                "$path": "Packages"
+            }
+        },
+        "ServerScriptService": {
+            "$className": "ServerScriptService",
+            "$path": "src/Server",
+            "Packages": {
+                "$className": "Folder",
+                "$path": "ServerPackages"
+            }
+        },
+        "StarterPlayer": {
+            "$className": "StarterPlayer",
+            "StarterPlayerScripts": {
+                "$className": "StarterPlayerScripts",
+                "$path": "src/Client"
+            }
+        },
+        "ReplicatedFirst": {
+            "$className": "ReplicatedFirst",
+            "Source": {
+                "$className": "Folder",
+                "$path": "src/ClientEngineLoad"
+            }
+        },
+        "LocalizationService": {
+            "$className": "LocalizationService",
+            "$path": "src/Localization"
+        }
+    }
+}

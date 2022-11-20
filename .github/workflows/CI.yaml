@@ -1,0 +1,31 @@
+name: CI Workflows
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs: 
+  development: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout development
+        uses: actions/checkout@v3
+
+      - name: Setup Foreman
+        uses: Roblox/setup-foreman@v1
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Foreman Toolchains
+        run: foreman install
+
+      - name: Run Stylua
+        run: stylua lib --check
+
+      - name: Run Selene
+        run : selene lib
