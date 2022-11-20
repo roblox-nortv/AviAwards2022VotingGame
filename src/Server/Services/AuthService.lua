@@ -1,3 +1,4 @@
+--!strict
 --literally copyright me
 --do not steal this plz
 local MarketplaceService = game:GetService("MarketplaceService")
@@ -94,10 +95,10 @@ function AuthService:CheckPlayerHasVotePermission(player: Player): boolean | num
 	local isRegularMember = player.MembershipType == Enum.MembershipType.None
 
 	local allFriends: { FriendsData } = {}
-	local _success, friendPages = pcall(function()
+	local getPlayerFriendsDataSuccess, friendPages = pcall(function()
 		return Players:GetFriendsAsync(player.UserId)
 	end)
-	if _success then
+	if getPlayerFriendsDataSuccess then
 		for item, _ in iterPageItems(friendPages) do
 			if #allFriends >= 100 then
 				break
@@ -129,9 +130,9 @@ function AuthService:CheckPlayerHasVotePermission(player: Player): boolean | num
 		return ALL_REJECTED_REASON.AccountAgeBelowMinimum
 	end
 
-	local _success, hasVerificationHat =
+	local checkPlayerVerifiedDataSuccess, hasVerificationHat =
 		pcall(MarketplaceService.PlayerOwnsAsset, MarketplaceService, player, VERIFICATION_HAT_ID)
-	if _success and not hasVerificationHat then
+	if checkPlayerVerifiedDataSuccess and not hasVerificationHat then
 		return ALL_REJECTED_REASON.AccountNotVerified
 	end
 
@@ -152,7 +153,7 @@ function AuthService:CheckPlayerHasVotePermission(player: Player): boolean | num
     end
 
 	passedChecks += (inCommonGroups / #CommonRoAviGroups)
-	passedChecks += (_success and hasVerificationHat) and 1 or 0
+	passedChecks += (checkPlayerVerifiedDataSuccess and hasVerificationHat) and 1 or 0
 	passedChecks += if #playerGroups > 3 and #playerGroups < 8 then 1 else 0.5
 	passedChecks += if accountAge > 40 then 1 else 0
 	passedChecks += if #allFriends > 15 then 1 else 0.5
@@ -163,10 +164,10 @@ function AuthService:CheckPlayerHasVotePermission(player: Player): boolean | num
 		return ALL_REJECTED_REASON.ProbablityTooLow
 	end
 
-	local _success, lastFingerprintData = pcall(function()
+	local fingerprintDataFetchSuccess, lastFingerprintData = pcall(function()
 		return PlayerFingerprintStore:GetAsync(self.Fingerprints[player])
 	end)
-	if _success then
+	if fingerprintDataFetchSuccess then
 		if lastFingerprintData then
 			print("Last fingerprint data: ", lastFingerprintData)
 			if lastFingerprintData.PlayerId ~= player.UserId then
