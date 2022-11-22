@@ -25,13 +25,6 @@
                 "$path": "src/Client"
             }
         },
-        "ReplicatedFirst": {
-            "$className": "ReplicatedFirst",
-            "Source": {
-                "$className": "Folder",
-                "$path": "src/ClientEngineLoad"
-            }
-        },
         "LocalizationService": {
             "$className": "LocalizationService",
             "$path": "src/Localization"
