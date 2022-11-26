@@ -8,8 +8,8 @@ local MainGui = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("CutsceneAnim
 local CutsceneAnimation = MainGui:WaitForChild("Root")
 
 local Knit = require(ReplicatedStorage.Packages.Knit)
-local UIController = Knit.CreateController({
-	Name = "UIController",
+local CutsceneUIController = Knit.CreateController({
+	Name = "CutsceneUIController",
 	_CurrentCutscene = false,
 })
 
@@ -43,10 +43,10 @@ local function TweenWrapperText(TextLabelWrapper: any, reverse: boolean?)
 	):Play()
 end
 
-function UIController:KnitInit()
+function CutsceneUIController:KnitInit()
 	task.spawn(function()
 		self:SetCutsceneState(true)
-		self._KnitInitCutsceneFinished = true
+		self:SetCutsceneState(false)
 	end)
 
 	CutsceneAnimation.Spinner.Rotation = 0
@@ -57,16 +57,7 @@ function UIController:KnitInit()
 	):Play()
 end
 
-function UIController:KnitStart()
-	task.spawn(function()
-		repeat
-			task.wait()
-		until self._KnitInitCutsceneFinished
-		self:SetCutsceneState(false)
-	end)
-end
-
-function UIController:SetCutsceneState(cutsceneState: boolean)
+function CutsceneUIController:SetCutsceneState(cutsceneState: boolean)
 	if self._CurrentCutscene == cutsceneState then
 		return
 	end
@@ -101,4 +92,4 @@ function UIController:SetCutsceneState(cutsceneState: boolean)
 	task.wait(3.5)
 end
 
-return UIController
+return CutsceneUIController
