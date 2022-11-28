@@ -44,15 +44,10 @@ local function TweenWrapperText(TextLabelWrapper: any, reverse: boolean?)
 end
 
 function CutsceneUIController:KnitInit()
-	task.spawn(function()
-		self:SetCutsceneState(true)
-		self:SetCutsceneState(false)
-	end)
-
 	CutsceneAnimation.Spinner.Rotation = 0
 	TweenService:Create(
 		CutsceneAnimation.Spinner,
-		TweenInfo.new(10, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true),
+		TweenInfo.new(10, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, false),
 		{ Rotation = 359 }
 	):Play()
 end
