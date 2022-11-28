@@ -32,7 +32,7 @@ local ALL_REJECTED_REASON = {
 	AccountNotVerified = 21005,
 	ProbablityTooLow = 21006,
 	FingerprintPlayerIdMismatch = 21007,
-    NotEnoughGroups = 21008,
+	NotEnoughGroups = 21008,
 	ServerError = 22000,
 }
 
@@ -121,7 +121,6 @@ function AuthService:CheckPlayerHasVotePermission(player: Player): boolean | num
 		end
 	end
 
-
 	if not isRegularMember then
 		return true
 	end
@@ -148,9 +147,9 @@ function AuthService:CheckPlayerHasVotePermission(player: Player): boolean | num
 		end
 	end
 
-    if #playerGroups <= 2 then
-        return ALL_REJECTED_REASON.NotEnoughGroups
-    end
+	if #playerGroups <= 2 then
+		return ALL_REJECTED_REASON.NotEnoughGroups
+	end
 
 	passedChecks += (inCommonGroups / #CommonRoAviGroups)
 	passedChecks += (checkPlayerVerifiedDataSuccess and hasVerificationHat) and 1 or 0
