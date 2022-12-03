@@ -39,6 +39,16 @@ function UIController:KnitInit()
 	):Play()
 end
 
+function UIController:ShowNotification(text: string, duration: number)
+	local Notification = MainGui:WaitForChild("Notification"):Clone()
+	Notification.Parent = MainGui
+	Notification.Text = text
+	Notification.Visible = true
+	print(Notification)
+	task.wait(duration)
+	Notification:Destroy()
+end
+
 function UIController:KnitStart()
 	local CutsceneUIController = Knit.GetController("CutsceneUIController")
 	local VotingService = Knit.GetService("VotingService")
