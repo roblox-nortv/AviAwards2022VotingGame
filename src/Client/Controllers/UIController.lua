@@ -174,7 +174,7 @@ function UIController:KnitStart()
 	CutsceneUIController:SetCutsceneState(false)
 
 	CurrentCamera.CameraType = Enum.CameraType.Scriptable
-	CurrentCamera.FieldOfView = 40
+	CurrentCamera.FieldOfView = 30
 	RunService:BindToRenderStep("UpdateUIBackgroundCamera", Enum.RenderPriority.Camera.Value - 1, function()
 		local mouseOffsetFromScreenCenter = Vector2.new(
 			UserInputService:GetMouseLocation().X - (CurrentCamera.ViewportSize.X / 2),
