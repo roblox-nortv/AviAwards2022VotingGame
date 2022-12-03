@@ -6,6 +6,8 @@ local ServerScriptService = game:GetService("ServerScriptService")
 
 local VotingOptions = require(ReplicatedStorage.Shared.VotingOptions)
 local EmptyVotedData = {}
+local offLimitIds = {"aviawards_best_event"}
+
 for categoryName, options in pairs(VotingOptions) do
 	EmptyVotedData[categoryName] = {}
 	for i, _ in ipairs(options) do
@@ -58,13 +60,21 @@ end
 
 function VotingService.Client:Vote(player: Player, categoryName: string, optionId: string)
 	task.wait(0.1)
+
+	if table.find(offLimitIds, optionId) then
+		return false, "Cannot register request. Please try a different candidate"
+	end
+
 	local profile = VotingService.Profiles[player]
 	if profile ~= nil then
 		for i, optionData in ipairs(VotingOptions[categoryName]) do
 			profile.Data[categoryName][i] = optionData.id == optionId
 		end
 		VotingService:UpdatePlayerVoted(player)
+		return true
 	end
+
+	return false, "Failed to get profile"
 end
 
 function VotingService.Client:ExportData(player: Player)
