@@ -30,7 +30,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 			id = "tap_air_1000",
 		},
 		{
-			title = "United (B<1000)",
+			title = "United",
 			owner = "Eyxxn",
 			preview = "",
 			id = "united_1000",
