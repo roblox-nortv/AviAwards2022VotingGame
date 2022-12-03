@@ -5,7 +5,7 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local LocalPlayer = Players.LocalPlayer
-local IsLocalPlayerAdmin = LocalPlayer:GetRankInGroup(5287078) >= 50
+local IsLocalPlayerAdmin = LocalPlayer:GetRankInGroup(5287078) >= 252
 
 local CurrentCamera = workspace.CurrentCamera
 local CameraCFrame = workspace:WaitForChild("Camera_POV").CFrame
@@ -37,23 +37,6 @@ function UIController:KnitInit()
 		TweenInfo.new(10, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, false),
 		{ Rotation = 359 }
 	):Play()
-
-	CurrentCamera.CameraType = Enum.CameraType.Scriptable
-	CurrentCamera.FieldOfView = 40
-	RunService:BindToRenderStep("UpdateUIBackgroundCamera", Enum.RenderPriority.Camera.Value - 1, function()
-		local mouseOffsetFromScreenCenter = Vector2.new(
-			UserInputService:GetMouseLocation().X - (CurrentCamera.ViewportSize.X / 2),
-			UserInputService:GetMouseLocation().Y - (CurrentCamera.ViewportSize.Y / 2)
-		)
-		local newCFrame = CameraCFrame
-			* CFrame.Angles(
-				math.rad(-mouseOffsetFromScreenCenter.Y * 0.002),
-				math.rad(-mouseOffsetFromScreenCenter.X * 0.002),
-				0
-			)
-			* CFrame.new(math.noise(tick() * 0.5) * 10, math.noise(tick() * 0.3) * 15, 0)
-		CurrentCamera.CFrame = CurrentCamera.CFrame:Lerp(newCFrame, 0.15)
-	end)
 end
 
 function UIController:KnitStart()
@@ -173,6 +156,23 @@ function UIController:KnitStart()
 
 	local _ = LocalPlayer:GetAttribute("Authorized") or LocalPlayer:GetAttributeChangedSignal("Authorized"):Wait()
 	CutsceneUIController:SetCutsceneState(false)
+
+	CurrentCamera.CameraType = Enum.CameraType.Scriptable
+	CurrentCamera.FieldOfView = 40
+	RunService:BindToRenderStep("UpdateUIBackgroundCamera", Enum.RenderPriority.Camera.Value - 1, function()
+		local mouseOffsetFromScreenCenter = Vector2.new(
+			UserInputService:GetMouseLocation().X - (CurrentCamera.ViewportSize.X / 2),
+			UserInputService:GetMouseLocation().Y - (CurrentCamera.ViewportSize.Y / 2)
+		)
+		local newCFrame = CameraCFrame
+			* CFrame.Angles(
+				math.rad(-mouseOffsetFromScreenCenter.Y * 0.002),
+				math.rad(-mouseOffsetFromScreenCenter.X * 0.002),
+				0
+			)
+			* CFrame.new(math.noise(tick() * 0.5) * 10, math.noise(tick() * 0.3) * 15, 0)
+		CurrentCamera.CFrame = CurrentCamera.CFrame:Lerp(newCFrame, 0.15)
+	end)
 end
 
 return UIController

@@ -68,7 +68,7 @@ function VotingService.Client:Vote(player: Player, categoryName: string, optionI
 end
 
 function VotingService.Client:ExportData(player: Player)
-	local IsPlayerAdmin = player:GetRankInGroup(5287078) >= 50
+	local IsPlayerAdmin = player:GetRankInGroup(5287078) >= 252
 	if not IsPlayerAdmin then
 		return "PermissionInsufficient"
 	end
