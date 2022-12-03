@@ -23,7 +23,7 @@ local VotingService = Knit.CreateService({
 })
 
 local ProfileService = require(ServerScriptService.Packages.ProfileService)
-local ProfileStore = ProfileService.GetProfileStore("VotingData", EmptyVotedData)
+local ProfileStore = ProfileService.GetProfileStore("VotingDataProd", EmptyVotedData)
 
 function VotingService:PlayerAdded(player: Player)
 	local profile = ProfileStore:LoadProfileAsync("Player_" .. player.UserId)
@@ -91,6 +91,7 @@ function VotingService.Client:ExportData(player: Player)
 				for categoryName, options in pairs(profile.Data) do
 					data[categoryName] = data[categoryName] or {}
 					for optionId, voted in pairs(options) do
+						print("[VotingService] Exporting data for key: ", key.KeyName, categoryName, optionId, voted)
 						local currentOptionTitle = VotingOptions[categoryName][optionId].title
 						data[categoryName][currentOptionTitle] = data[categoryName][currentOptionTitle] or {}
 						if voted then
