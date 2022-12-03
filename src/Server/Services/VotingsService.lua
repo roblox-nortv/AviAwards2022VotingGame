@@ -111,6 +111,7 @@ function VotingService.Client:ExportData(player: Player)
 		allKeysPage:AdvanceToNextPageAsync()
 	end
 
+	self._ExportingData = false
 	return HttpService:JSONEncode(data)
 end
 
