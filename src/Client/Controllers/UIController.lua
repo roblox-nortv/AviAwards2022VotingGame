@@ -111,7 +111,13 @@ function UIController:KnitStart()
 
 				PageInfo.Spinner.Visible = true
 				--//Vote
-				VotingService:Vote(category, option.id)
+				local voteSuccess, info = VotingService:Vote(category, option.id)
+				print(voteSuccess, info)
+				if not voteSuccess then
+					task.spawn(function()
+						self:ShowNotification(info, 1.5)
+					end)
+				end
 				--//Get result
 				PageInfo.Spinner.Visible = false
 				self._Debounce = false

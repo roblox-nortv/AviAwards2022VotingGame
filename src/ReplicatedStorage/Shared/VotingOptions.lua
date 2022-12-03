@@ -189,7 +189,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 	-- MISC	Event	NATA22	martinamrtins1
 	-- MISC	Event	VRFAT2022
 	-- MISC	Event	"ZeroTech Landing Competition
-	-- "
+	-- MISC Event   AviAwards
 	-- MISC	Event	-
 	["Best Event"] = {
 		{
@@ -209,6 +209,12 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 			owner = "-",
 			preview = "rbxassetid://0",
 			id = "zerotech_landing_competition_best_event",
+		},
+		{
+			title = "AviAwards",
+			owner = "-",
+			preview = "rbxassetid://0",
+			id = "aviawards_best_event",
 		},
 	},
 	-- MISC	YouTuber	Executive757	0
