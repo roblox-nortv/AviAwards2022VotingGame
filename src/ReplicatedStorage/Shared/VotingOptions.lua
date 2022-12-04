@@ -20,7 +20,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Swedconnect",
 			owner = "suomidev",
-			preview = "rbxassetid://11744797179",
+			preview = "rbxassetid://11745114066",
 			id = "swedconnect_1000",
 		},
 		{
@@ -327,7 +327,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "SimulatedJosh",
 			owner = "SimulatedJosh",
-			preview = "rbxassetid://11735227683",
+			preview = "rbxassetid://11745115502",
 			id = "simulatedjosh_best_csg_developer",
 		},
 		{
