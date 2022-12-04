@@ -1,3 +1,4 @@
+local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -173,8 +174,15 @@ function UIController:KnitStart()
 	local _ = LocalPlayer:GetAttribute("Authorized") or LocalPlayer:GetAttributeChangedSignal("Authorized"):Wait()
 	CutsceneUIController:SetCutsceneState(false)
 
+	CurrentCamera:GetPropertyChangedSignal("CameraType", "CameraSubject"):Connect(function()
+		if CurrentCamera.CameraType == Enum.CameraType.Scriptable then
+			CurrentCamera.CameraType = Enum.CameraType.Scriptable
+			CurrentCamera.FieldOfView = 30
+		end
+	end)
 	CurrentCamera.CameraType = Enum.CameraType.Scriptable
 	CurrentCamera.FieldOfView = 30
+
 	RunService:BindToRenderStep("UpdateUIBackgroundCamera", Enum.RenderPriority.Camera.Value - 1, function()
 		local mouseOffsetFromScreenCenter = Vector2.new(
 			UserInputService:GetMouseLocation().X - (CurrentCamera.ViewportSize.X / 2),
@@ -188,6 +196,61 @@ function UIController:KnitStart()
 			)
 			* CFrame.new(math.noise(tick() * 0.5) * 10, math.noise(tick() * 0.3) * 15, 0)
 		CurrentCamera.CFrame = CurrentCamera.CFrame:Lerp(newCFrame, 0.15)
+	end)
+
+	RunService:BindToRenderStep("UpdateAnimation", Enum.RenderPriority.Camera.Value - 1, function()
+		for _, preview in pairs(CollectionService:GetTagged("ImagePlaceholderLoop")) do
+			local uiGradient = preview:FindFirstChildOfClass("UIGradient")
+			if uiGradient then
+				if preview.IsLoaded then
+					uiGradient.Rotation = 0
+					uiGradient.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255))
+					continue
+				end
+			end
+		end
+	end)
+
+	for _, preview in pairs(CollectionService:GetTagged("ImagePlaceholderLoop")) do
+		local uiGradient = preview:FindFirstChildOfClass("UIGradient")
+		if uiGradient then
+			local offsetXTemp = uiGradient:findFirstChild("OffsetXTemp") or Instance.new("NumberValue")
+			offsetXTemp.Name = "OffsetXTemp"
+			offsetXTemp.Value = -2
+			offsetXTemp.Parent = uiGradient
+
+			TweenService:Create(
+				offsetXTemp,
+				TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1, false, 1),
+				{
+					Value = 2
+				}
+			):Play()
+			offsetXTemp.Changed:Connect(function()
+				uiGradient.Offset = Vector2.new(offsetXTemp.Value, 0)
+			end)
+		end
+	end
+
+	CollectionService:GetInstanceAddedSignal("ImagePlaceholderLoop"):Connect(function(preview)
+		local uiGradient = preview:FindFirstChildOfClass("UIGradient")
+		if uiGradient then
+			local offsetXTemp = uiGradient:findFirstChild("OffsetXTemp") or Instance.new("NumberValue")
+			offsetXTemp.Name = "OffsetXTemp"
+			offsetXTemp.Value = -2
+			offsetXTemp.Parent = uiGradient
+
+			TweenService:Create(
+				offsetXTemp,
+				TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1, false, 1),
+				{
+					Value = 2
+				}
+			):Play()
+			offsetXTemp.Changed:Connect(function()
+				uiGradient.Offset = Vector2.new(offsetXTemp.Value, 0)
+			end)
+		end
 	end)
 end
 
