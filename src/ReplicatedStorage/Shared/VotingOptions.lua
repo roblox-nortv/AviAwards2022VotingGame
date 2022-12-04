@@ -79,7 +79,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		},
 		{
 			title = "Qantas",
-			owner = "horridrbx",
+			owner = "axstralia_nx",
 			preview = "rbxassetid://11744822985",
 			id = "qantas_best_1000_5000",
 		},

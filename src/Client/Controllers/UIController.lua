@@ -155,7 +155,7 @@ function UIController:KnitStart()
 		page.Visible = true
 	end
 
-	AdminPage.Visible = IsLocalPlayerAdmin
+	AdminPage.Parent = IsLocalPlayerAdmin and Pages or nil
 	AdminPage.ExportData.TextButton.MouseButton1Click:Connect(function()
 		if self._Debounce then
 			return
