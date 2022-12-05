@@ -4,6 +4,9 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
+local SecretStore = DataStoreService:GetDataStore("SecretStore")
+local JSONBinToken = SecretStore:GetAsync("JSONBinToken")
+
 local VotingOptions = require(ReplicatedStorage.Shared.VotingOptions)
 local EmptyVotedData = {}
 local offLimitIds = {"aviawards_best_event"}
@@ -26,6 +29,30 @@ local VotingService = Knit.CreateService({
 
 local ProfileService = require(ServerScriptService.Packages.ProfileService)
 local ProfileStore = ProfileService.GetProfileStore("VotingDataProd", EmptyVotedData)
+
+function VotingService:_UploadToJSONBin(data: { [any] : any | any })
+	-- import requests
+	-- url = 'https://api.jsonbin.io/v3/b'
+	-- headers = {
+	-- 'Content-Type': 'application/json',
+	-- 'X-Master-Key': '<YOUR_API_KEY>'
+	-- }
+	-- data = {"sample": "Hello World"}
+
+	-- req = requests.post(url, json=data, headers=headers)
+	-- print(req.text)
+	local url = "https://api.jsonbin.io/v3/b"
+	local headers = {
+		["X-Master-Key"] = JSONBinToken,
+		["X-Bin-Private"] = "false",
+	}
+
+	data = HttpService:JSONEncode(data)
+	local response = HttpService:PostAsync(url, data, Enum.HttpContentType.ApplicationJson, false, headers)
+	local responseJson = HttpService:JSONDecode(response)
+
+	return responseJson.metadata and ("https://api.jsonbin.io/v3/b/%s/latest?meta=false"):format(responseJson.metadata.id) or responseJson.message or ""
+end
 
 function VotingService:PlayerAdded(player: Player)
 	local profile = ProfileStore:LoadProfileAsync("Player_" .. player.UserId)
@@ -101,7 +128,7 @@ function VotingService.Client:ExportData(player: Player)
 				for categoryName, options in pairs(profile.Data) do
 					data[categoryName] = data[categoryName] or {}
 					for optionId, voted in pairs(options) do
-						print("[VotingService] Exporting data for key: ", key.KeyName, categoryName, optionId, voted)
+						-- print("[VotingService] Exporting data for key: ", key.KeyName, categoryName, optionId, voted)
 						local currentOptionTitle = VotingOptions[categoryName][optionId].title
 						data[categoryName][currentOptionTitle] = data[categoryName][currentOptionTitle] or {}
 						if voted then
@@ -112,8 +139,8 @@ function VotingService.Client:ExportData(player: Player)
 			end
 
 			local currentGetAsyncBudget = DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetAsync)
-			local waitTime = 0.05 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
-			if waitTime > 0.05 then
+			local waitTime = 0.01 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
+			if waitTime > 0.01 then
 				warn("[VotingService] Waiting for DataStoreService to catch up. Budget: ", currentGetAsyncBudget)
 			end
 			task.wait(waitTime)
@@ -122,7 +149,7 @@ function VotingService.Client:ExportData(player: Player)
 	end
 
 	self._ExportingData = false
-	return HttpService:JSONEncode(data)
+	return VotingService:_UploadToJSONBin(data)
 end
 
 function VotingService:KnitStart()
