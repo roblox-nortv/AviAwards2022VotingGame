@@ -106,7 +106,7 @@ function AuthService:CheckPlayerHasVotePermission(player: Player): boolean | num
 			table.insert(allFriends, item)
 		end
 
-		if #allFriends < 15 then
+		if #allFriends < 8 then
 			return ALL_REJECTED_REASON.FriendsCountBelowMinimum
 		else
 			local withDisplayName = 0
