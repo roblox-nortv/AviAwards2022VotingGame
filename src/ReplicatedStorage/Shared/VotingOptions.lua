@@ -20,7 +20,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Swedconnect",
 			owner = "suomidev",
-			preview = "rbxassetid://11489362884",
+			preview = "rbxassetid://11750741054",
 			id = "swedconnect_1000",
 		},
 		{
@@ -74,7 +74,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Dynasty",
 			owner = "aaditbh12",
-			preview = "rbxassetid://11489332878",
+			preview = "rbxassetid://11750695371",
 			id = "dynasty_best_1000_5000",
 		},
 		{
@@ -122,7 +122,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Dynasty",
 			owner = "aaditbh12",
-			preview = "rbxassetid://11489332878",
+			preview = "rbxassetid://11750695371",
 			id = "dynasty_best_tech",
 		},
 	},
@@ -146,7 +146,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Patron",
 			owner = "Patron",
-			preview = "rbxassetid://11489332878",
+			preview = "rbxassetid://11750745114",
 			id = "Patron_best_aviator",
 		},
 		{
@@ -231,7 +231,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Patron",
 			owner = "Patron",
-			preview = "rbxassetid://11489332878",
+			preview = "rbxassetid://11750745114",
 			id = "patron_best_youtuber",
 		},
 		{
@@ -327,7 +327,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "SimulatedJosh",
 			owner = "SimulatedJosh",
-			preview = "rbxassetid://11489362884",
+			preview = "rbxassetid://11750749734",
 			id = "simulatedjosh_best_csg_developer",
 		},
 		{
