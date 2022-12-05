@@ -327,7 +327,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "SimulatedJosh",
 			owner = "SimulatedJosh",
-			preview = "rbxassetid://11745115502",
+			preview = "rbxassetid://11489362884",
 			id = "simulatedjosh_best_csg_developer",
 		},
 		{
