@@ -112,8 +112,8 @@ function VotingService.Client:ExportData(player: Player)
 			end
 
 			local currentGetAsyncBudget = DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetAsync)
-			local waitTime = 0.1 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
-			if waitTime > 0.1 then
+			local waitTime = 0.05 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
+			if waitTime > 0.05 then
 				warn("[VotingService] Waiting for DataStoreService to catch up. Budget: ", currentGetAsyncBudget)
 			end
 			task.wait(waitTime)
