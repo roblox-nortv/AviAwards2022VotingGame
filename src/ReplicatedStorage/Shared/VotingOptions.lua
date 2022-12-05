@@ -20,7 +20,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Swedconnect",
 			owner = "suomidev",
-			preview = "rbxassetid://11745114066",
+			preview = "rbxassetid://11489362884",
 			id = "swedconnect_1000",
 		},
 		{
@@ -74,12 +74,12 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Dynasty",
 			owner = "aaditbh12",
-			preview = "rbxassetid://11744866210",
+			preview = "rbxassetid://11489332878",
 			id = "dynasty_best_1000_5000",
 		},
 		{
 			title = "Qantas",
-			owner = "axstralia_nx",
+			owner = "VH_NHP",
 			preview = "rbxassetid://11744822985",
 			id = "qantas_best_1000_5000",
 		},
@@ -122,7 +122,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Dynasty",
 			owner = "aaditbh12",
-			preview = "rbxassetid://11744866210",
+			preview = "rbxassetid://11489332878",
 			id = "dynasty_best_tech",
 		},
 	},
@@ -162,8 +162,8 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 	-- MISC	DispTeam	Roblox Red Bull Air Force	TwoPatronimo
 	["Best Display Team"] = {
 		{
-			title = "Virtual Roblox Blue Display Group",
-			owner = "Immortalemx",
+			title = "Virtual Roblox Blue Angels",
+			owner = "Riceiix",
 			preview = "rbxassetid://11735252134",
 			id = "virtual_roblox_blue_display_group_best_disp_team",
 		},
@@ -181,7 +181,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		},
 		{
 			title = "Roblox Red Bull Air Force",
-			owner = "TwoPatronimo",
+			owner = "Anversev",
 			preview = "rbxassetid://11735254925",
 			id = "roblox_red_bull_air_force_best_disp_team",
 		},
@@ -195,24 +195,24 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "NATA22",
 			owner = "martinamrtins1",
-			preview = "rbxassetid://0",
+			preview = "rbxassetid://11750678528",
 			id = "nata22_best_event",
 		},
 		{
 			title = "VRFAT2022",
-			owner = "VRFAT2022",
-			preview = "rbxassetid://0",
+			owner = "Roblox Red Arrows",
+			preview = "rbxassetid://11735253527",
 			id = "vrfat2022_best_event",
 		},
 		{
 			title = "ZeroTech Landing Competition",
-			owner = "-",
+			owner = "ZeroTech",
 			preview = "rbxassetid://0",
 			id = "zerotech_landing_competition_best_event",
 		},
 		{
 			title = "AviAwards",
-			owner = "-",
+			owner = "JoeBiden",
 			preview = "rbxassetid://0",
 			id = "aviawards_best_event",
 		},
@@ -343,26 +343,26 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 	-- DEV	Airport	Qantas	horridrbx
 	["Best Airport"] = {
 		{
-			title = "LeMonde Airlines",
-			owner = "LMDHolder",
+			title = "Rostock Laage",
+			owner = "LeMonde Airlines",
 			preview = "rbxassetid://11735170813",
 			id = "lemonde_airlines_best_airport",
 		},
 		{
-			title = "globalSkies",
-			owner = "laceboyo",
+			title = "John F. Kennedy",
+			owner = "globalSkies",
 			preview = "rbxassetid://11735202256",
 			id = "globalskies_best_airport",
 		},
 		{
-			title = "United (BA)",
-			owner = "galaxxTM",
+			title = "Washington Dulles",
+			owner = "United (BA)",
 			preview = "rbxassetid://11735209099",
 			id = "united_ba_best_airport",
 		},
 		{
-			title = "Qantas",
-			owner = "horridrbx",
+			title = "Sydney",
+			owner = "Qantas (axstralia_nx)",
 			preview = "rbxassetid://11735214020",
 			id = "qantas_best_airport",
 		},
