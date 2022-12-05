@@ -4,12 +4,14 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
+local HTTP = require(script.http)
+
 local SecretStore = DataStoreService:GetDataStore("SecretStore")
 local JSONBinToken = SecretStore:GetAsync("JSONBinToken")
 
 local VotingOptions = require(ReplicatedStorage.Shared.VotingOptions)
 local EmptyVotedData = {}
-local offLimitIds = {"aviawards_best_event"}
+local offLimitIds = { "aviawards_best_event" }
 
 for categoryName, options in pairs(VotingOptions) do
 	EmptyVotedData[categoryName] = {}
@@ -30,7 +32,7 @@ local VotingService = Knit.CreateService({
 local ProfileService = require(ServerScriptService.Packages.ProfileService)
 local ProfileStore = ProfileService.GetProfileStore("VotingDataProd", EmptyVotedData)
 
-function VotingService:_UploadToJSONBin(data: { [any] : any | any })
+function VotingService:_UploadToJSONBin(data: { [any]: any | any })
 	-- import requests
 	-- url = 'https://api.jsonbin.io/v3/b'
 	-- headers = {
@@ -51,7 +53,19 @@ function VotingService:_UploadToJSONBin(data: { [any] : any | any })
 	local response = HttpService:PostAsync(url, data, Enum.HttpContentType.ApplicationJson, false, headers)
 	local responseJson = HttpService:JSONDecode(response)
 
-	return responseJson.metadata and ("https://api.jsonbin.io/v3/b/%s/latest?meta=false"):format(responseJson.metadata.id) or responseJson.message or ""
+	return responseJson.metadata
+			and ("https://api.jsonbin.io/v3/b/%s/latest?meta=false"):format(responseJson.metadata.id)
+		or responseJson.message
+		or ""
+end
+
+function VotingService:_UploadToFileIO(data: { [any]: any | any })
+	data = HTTP.File("data.txt", HttpService:JSONEncode(data))
+	local form = HTTP.FormData()
+	form:AddField("file", data)
+
+	local r = HTTP.post("https://file.io/?expires=1d&title=data.txt", { data = form })
+	return r:json().link or ""
 end
 
 function VotingService:PlayerAdded(player: Player)
@@ -138,7 +152,8 @@ function VotingService.Client:ExportData(player: Player)
 				end
 			end
 
-			local currentGetAsyncBudget = DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetAsync)
+			local currentGetAsyncBudget =
+				DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetAsync)
 			local waitTime = 0.01 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
 			if waitTime > 0.01 then
 				warn("[VotingService] Waiting for DataStoreService to catch up. Budget: ", currentGetAsyncBudget)
@@ -149,7 +164,9 @@ function VotingService.Client:ExportData(player: Player)
 	end
 
 	self._ExportingData = false
-	return VotingService:_UploadToJSONBin(data)
+	return VotingService:_UploadToFileIO(data)
+	-- return VotingService:_UploadToJSONBin(data)
+	-- return HttpService:JSONDecode(data)
 end
 
 function VotingService:KnitStart()
