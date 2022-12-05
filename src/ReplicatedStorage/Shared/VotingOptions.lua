@@ -146,7 +146,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Patron",
 			owner = "Patron",
-			preview = "rbxassetid://11744661816",
+			preview = "rbxassetid://11489332878",
 			id = "Patron_best_aviator",
 		},
 		{
@@ -231,7 +231,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		{
 			title = "Patron",
 			owner = "Patron",
-			preview = "rbxassetid://11744662922",
+			preview = "rbxassetid://11489332878",
 			id = "patron_best_youtuber",
 		},
 		{
