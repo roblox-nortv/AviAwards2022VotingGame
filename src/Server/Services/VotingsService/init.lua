@@ -20,6 +20,12 @@ for categoryName, options in pairs(VotingOptions) do
 	end
 end
 
+local CSVTemplate = { "Timestamp", "SessionLoadCount", "PlayerName", "PlayerId" }
+for categoryName, _ in pairs(VotingOptions) do
+	table.insert(CSVTemplate, categoryName)
+end
+CSVTemplate = table.concat(CSVTemplate, ",")
+
 local Knit = require(ReplicatedStorage.Packages.Knit)
 local VotingService = Knit.CreateService({
 	Name = "VotingService",
@@ -31,6 +37,22 @@ local VotingService = Knit.CreateService({
 
 local ProfileService = require(ServerScriptService.Packages.ProfileService)
 local ProfileStore = ProfileService.GetProfileStore("VotingDataProd", EmptyVotedData)
+
+local PlayerNameCache = {}
+local function GetPlayerUsername(playerId: number | string)
+	if PlayerNameCache[playerId] then
+		return PlayerNameCache[playerId]
+	end
+	local success, result = pcall(function()
+		return Players:GetNameFromUserIdAsync(playerId)
+	end)
+	if success then
+		PlayerNameCache[playerId] = result
+		return result
+	end
+	warn("Failed to get player name for", playerId, result)
+	return "Unknown"
+end
 
 function VotingService:_UploadToJSONBin(data: { [any]: any | any })
 	-- import requests
@@ -59,8 +81,10 @@ function VotingService:_UploadToJSONBin(data: { [any]: any | any })
 		or ""
 end
 
-function VotingService:_UploadToFileIO(data: { [any]: any | any })
-	data = HTTP.File("data.txt", HttpService:JSONEncode(data))
+function VotingService:_UploadToFileIO(data: { [any]: any | any }, encodeToJson: boolean, extension: string)
+	encodeToJson = encodeToJson == nil and true or encodeToJson
+	data =
+		HTTP.File(("data.%s"):format(extension or ".txt"), if encodeToJson then HttpService:JSONEncode(data) else data)
 	local form = HTTP.FormData()
 	form:AddField("file", data)
 
@@ -129,9 +153,9 @@ function VotingService.Client:ExportData(player: Player)
 	end
 	self._ExportingData = true
 
-	local data = {}
 	local datastore = ProfileStore._global_data_store
 
+	local data = {}
 	local allKeysPage = datastore:ListKeysAsync(nil, 100)
 	while not allKeysPage.IsFinished do
 		local currentPage = allKeysPage:GetCurrentPage()
@@ -139,23 +163,32 @@ function VotingService.Client:ExportData(player: Player)
 			print("[VotingService] Exporting data for key: ", key.KeyName)
 			local profile = ProfileStore:ViewProfileAsync(key.KeyName)
 			if profile ~= nil then
+				local playerCSV = {
+					('"%s"'):format(profile.MetaData.ProfileCreateTime),
+					('"%s"'):format(profile.MetaData.SessionLoadCount),
+					GetPlayerUsername(profile.UserIds[1]),
+					('"%s"'):format(profile.UserIds[1]),
+				}
+				local currentIndex = 4
 				for categoryName, options in pairs(profile.Data) do
-					data[categoryName] = data[categoryName] or {}
+					currentIndex += 1
+					playerCSV[currentIndex] = "N/A"
 					for optionId, voted in pairs(options) do
 						-- print("[VotingService] Exporting data for key: ", key.KeyName, categoryName, optionId, voted)
 						local currentOptionTitle = VotingOptions[categoryName][optionId].title
-						data[categoryName][currentOptionTitle] = data[categoryName][currentOptionTitle] or {}
 						if voted then
-							table.insert(data[categoryName][currentOptionTitle], key.KeyName)
+							playerCSV[currentIndex] = currentOptionTitle
 						end
 					end
 				end
+
+				table.insert(data, playerCSV)
 			end
 
 			local currentGetAsyncBudget =
 				DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetAsync)
-			local waitTime = 0.01 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
-			if waitTime > 0.01 then
+			local waitTime = 0.05 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
+			if waitTime > 0.05 then
 				warn("[VotingService] Waiting for DataStoreService to catch up. Budget: ", currentGetAsyncBudget)
 			end
 			task.wait(waitTime)
@@ -164,7 +197,15 @@ function VotingService.Client:ExportData(player: Player)
 	end
 
 	self._ExportingData = false
-	return VotingService:_UploadToFileIO(data)
+	local rawJson = VotingService:_UploadToFileIO(data)
+	--//Convert to CSV
+	local csv = CSVTemplate
+	for _, row in ipairs(data) do
+		-- csv = csv .. "\n" .. table.concat(row, ",")
+		csv = ("%s\n%s"):format(csv, table.concat(row, ","))
+	end
+	local csvUrl = VotingService:_UploadToFileIO(csv, false, ".csv")
+	return ("JSON: %s\nCSV: %s"):format(rawJson, csvUrl)
 	-- return VotingService:_UploadToJSONBin(data)
 	-- return HttpService:JSONDecode(data)
 end
