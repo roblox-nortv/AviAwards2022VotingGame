@@ -181,7 +181,7 @@ local VotingOptions: { [string]: { VotingOptionData } } = { --// VotingOptions[C
 		},
 		{
 			title = "Roblox Red Bull Air Force",
-			owner = "Anversev",
+			owner = "Aversev",
 			preview = "rbxassetid://11735254925",
 			id = "roblox_red_bull_air_force_best_disp_team",
 		},
