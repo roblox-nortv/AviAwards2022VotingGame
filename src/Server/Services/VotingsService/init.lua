@@ -167,7 +167,7 @@ function VotingService.Client:ExportData(player: Player)
 					('"%s"'):format(profile.MetaData.ProfileCreateTime),
 					('"%s"'):format(profile.MetaData.SessionLoadCount),
 					GetPlayerUsername(profile.UserIds[1]),
-					('"%s"'):format(profile.UserIds[1]),
+					('"%s"'):format(profile.UserIds[1] or "N/A"),
 				}
 				local currentIndex = 4
 				for categoryName, options in pairs(profile.Data) do
@@ -187,8 +187,8 @@ function VotingService.Client:ExportData(player: Player)
 
 			local currentGetAsyncBudget =
 				DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetAsync)
-			local waitTime = 0.05 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
-			if waitTime > 0.05 then
+			local waitTime = 0.01 + math.clamp(20 - currentGetAsyncBudget, 0, 2)
+			if waitTime > 0.01 then
 				warn("[VotingService] Waiting for DataStoreService to catch up. Budget: ", currentGetAsyncBudget)
 			end
 			task.wait(waitTime)
